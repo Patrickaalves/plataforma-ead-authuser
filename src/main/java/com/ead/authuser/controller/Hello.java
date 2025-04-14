@@ -1,0 +1,4 @@
+package com.ead.authuser.controller;
+
+public class Hello {
+}
