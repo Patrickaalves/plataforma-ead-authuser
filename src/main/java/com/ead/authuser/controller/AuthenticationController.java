@@ -5,6 +5,7 @@ import com.ead.authuser.service.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> registerUser(@RequestBody
-                                                   @JsonView(UserRecordDto.UserView.RegistrationPost.class) UserRecordDto userRecordDto) {
+    public ResponseEntity<Object> registerUser(@RequestBody @Validated(UserRecordDto.UserView.RegistrationPost.class)
+                                               @JsonView(UserRecordDto.UserView.RegistrationPost.class)
+                                               UserRecordDto userRecordDto) {
+
         if (userService.existsByUserName(userRecordDto.username())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is already taken!");
         }
@@ -33,22 +36,5 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: email is already taken!");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRecordDto));
-    }
-
-    @PostMapping("/manyusers")
-    public ResponseEntity<Object> registerUser(@RequestBody
-                                               @JsonView(UserRecordDto.UserView.RegistrationPost.class) List<UserRecordDto> userRecordDtoList) {
-        List<ResponseEntity<Object>> usersCreated = new ArrayList<>();
-        List<ResponseEntity<Object>> usersNotCreated = new ArrayList<>();
-        for (UserRecordDto userRecordDto : userRecordDtoList) {
-            if (userService.existsByUserName(userRecordDto.username())) {
-                usersNotCreated.add(ResponseEntity.status(HttpStatus.CONFLICT).body(" Error: Username: " + userRecordDto.username() + " is already taken!"));
-            } else if (userService.existsByEmail(userRecordDto.email())) {
-                usersNotCreated.add(ResponseEntity.status(HttpStatus.CONFLICT).body(" Error: email: " + userRecordDto.email() + "is already taken!"));
-            } else {
-                usersCreated.add(ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRecordDto)));
-            }
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Users created successfully: " + usersCreated + "\nUsers not created! " + usersNotCreated);
     }
 }
