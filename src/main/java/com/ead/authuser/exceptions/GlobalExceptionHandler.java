@@ -29,6 +29,6 @@ public class GlobalExceptionHandler {
             }
         );
         var errorRecordResponse = new ErrorRecordResponse(HttpStatus.BAD_REQUEST.value(), "Error: validation failed", errors);
-        return new ResponseEntity<>(errorRecordResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorRecordResponse, HttpStatus.BAD_REQUEST);
     }
 }
