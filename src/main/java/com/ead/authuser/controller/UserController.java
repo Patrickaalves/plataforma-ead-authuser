@@ -1,7 +1,9 @@
 package com.ead.authuser.controller;
 
+import com.ead.authuser.dto.UserRecordDto;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.service.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +38,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully");
     }
 
-
+    @PutMapping("/{userId}")
+    public ResponseEntity<Object> updateUser(@PathVariable(value = "userId") UUID userId,
+                                             @RequestBody @JsonView({UserRecordDto.UserView.UserPut.class}) UserRecordDto userRecordDto) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.updateUser(userRecordDto, userService.findById(userId).get()));
+    }
 }
