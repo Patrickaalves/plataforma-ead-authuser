@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public Optional<UserModel> findById(UUID userId) {
         Optional<UserModel> userModelOptional = userRepository.findById(userId);
         if (userModelOptional.isEmpty()) {
-            throw new NotFoundException("Usuario nao encontrado");
+            throw new NotFoundException("User not found");
         }
         return userModelOptional;
     }
@@ -71,6 +71,20 @@ public class UserServiceImpl implements UserService {
     public UserModel updateUser(UserRecordDto userRecordDto, UserModel userModel) {
         userModel.setPhoneNumber(userRecordDto.phoneNumber());
         userModel.setFullName(userRecordDto.fullName());
+        userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        return userRepository.save(userModel);
+    }
+
+    @Override
+    public UserModel udpatePassword(UserRecordDto userRecordDto, UserModel userModel) {
+        userModel.setPassword(userRecordDto.password());
+        userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        return userRepository.save(userModel);
+    }
+
+    @Override
+    public UserModel updateImage(UserRecordDto userRecordDto, UserModel userModel) {
+        userModel.setImageUrl(userRecordDto.imageUrl());
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         return userRepository.save(userModel);
     }

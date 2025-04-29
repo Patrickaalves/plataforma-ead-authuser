@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -30,5 +33,22 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: email is already taken!");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRecordDto));
+    }
+
+    @PostMapping("/manyusers")
+    public ResponseEntity<Object> registerUser(@RequestBody
+                                               @JsonView(UserRecordDto.UserView.RegistrationPost.class) List<UserRecordDto> userRecordDtoList) {
+        List<ResponseEntity<Object>> usersCreated = new ArrayList<>();
+        List<ResponseEntity<Object>> usersNotCreated = new ArrayList<>();
+        for (UserRecordDto userRecordDto : userRecordDtoList) {
+            if (userService.existsByUserName(userRecordDto.username())) {
+                usersNotCreated.add(ResponseEntity.status(HttpStatus.CONFLICT).body(" Error: Username: " + userRecordDto.username() + " is already taken!"));
+            } else if (userService.existsByEmail(userRecordDto.email())) {
+                usersNotCreated.add(ResponseEntity.status(HttpStatus.CONFLICT).body(" Error: email: " + userRecordDto.email() + "is already taken!"));
+            } else {
+                usersCreated.add(ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(userRecordDto)));
+            }
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body("Users created successfully: " + usersCreated + "\nUsers not created! " + usersNotCreated);
     }
 }
