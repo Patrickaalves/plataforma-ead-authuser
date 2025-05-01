@@ -1,1 +1,1 @@
-docker run -d --name postgres_ead_authuser -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=ead_authuser -v /home/patrick/postgres_data:/var/lib/postgresql/data -p 5432:5432 postgres
+docker run -d --name postgres_ead_authuser --restart=always -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=ead_authuser -v /home/patrick/postgres_data/ead_authuser:/var/lib/postgresql/data -p 5432:5432 postgres
