@@ -1,7 +1,6 @@
 package com.ead.authuser.controller;
 
 import com.ead.authuser.dto.UserRecordDto;
-import com.ead.authuser.exceptions.GlobalExceptionHandler;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.service.UserService;
 import com.ead.authuser.specifications.SpecificationTemplate;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Optional;
 import java.util.UUID;
 
