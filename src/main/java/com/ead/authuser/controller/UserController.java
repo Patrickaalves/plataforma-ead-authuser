@@ -1,6 +1,6 @@
 package com.ead.authuser.controller;
 
-import com.ead.authuser.dto.UserRecordDto;
+import com.ead.authuser.dto.response.UserRecordDto;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.service.UserService;
 import com.ead.authuser.specifications.SpecificationTemplate;

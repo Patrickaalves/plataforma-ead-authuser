@@ -1,8 +1,8 @@
 package com.ead.authuser.clients;
 
 
-import com.ead.authuser.dto.CourseRecordDto;
-import com.ead.authuser.dto.ResponsePageDto;
+import com.ead.authuser.dto.request.CourseRecordDto;
+import com.ead.authuser.dto.request.ResponsePageDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,6 @@
 package com.ead.authuser.service.impl;
 
-import com.ead.authuser.dto.UserRecordDto;
+import com.ead.authuser.dto.response.UserRecordDto;
 import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
 import com.ead.authuser.exceptions.NotFoundException;

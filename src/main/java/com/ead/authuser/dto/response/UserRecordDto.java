@@ -1,4 +1,4 @@
-package com.ead.authuser.dto;
+package com.ead.authuser.dto.response;
 
 import com.ead.authuser.validations.PasswordConstraint;
 import com.fasterxml.jackson.annotation.JsonView;

@@ -1,4 +1,4 @@
-package com.ead.authuser.dto;
+package com.ead.authuser.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

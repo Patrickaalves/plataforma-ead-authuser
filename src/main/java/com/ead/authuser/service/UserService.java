@@ -1,6 +1,6 @@
 package com.ead.authuser.service;
 
-import com.ead.authuser.dto.UserRecordDto;
+import com.ead.authuser.dto.response.UserRecordDto;
 import com.ead.authuser.models.UserModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

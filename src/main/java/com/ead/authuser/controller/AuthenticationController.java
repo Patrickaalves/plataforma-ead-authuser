@@ -1,6 +1,6 @@
 package com.ead.authuser.controller;
 
-import com.ead.authuser.dto.UserRecordDto;
+import com.ead.authuser.dto.response.UserRecordDto;
 import com.ead.authuser.service.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.logging.log4j.LogManager;

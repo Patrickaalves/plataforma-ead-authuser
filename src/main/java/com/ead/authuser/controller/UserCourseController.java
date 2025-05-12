@@ -1,7 +1,7 @@
 package com.ead.authuser.controller;
 
 import com.ead.authuser.clients.CourseClient;
-import com.ead.authuser.dto.CourseRecordDto;
+import com.ead.authuser.dto.request.CourseRecordDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
