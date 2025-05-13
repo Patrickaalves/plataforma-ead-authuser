@@ -34,7 +34,7 @@ public class CourseClient {
                                                        Pageable pageable) {
         String url = UriComponentsBuilder
                 .fromUriString(baseUrlCourse)
-                .path("/courses")
+                .pathSegment("courses")
                 .queryParam("userId", userId)
                 .queryParam("page", pageable.getPageNumber())
                 .queryParam("size", pageable.getPageSize())
@@ -42,7 +42,7 @@ public class CourseClient {
                         .map(order -> order.getProperty() + "," + order.getDirection())
                         .toArray())
                 .toUriString();
-        logger.info("metodo getAllCoursesByUserId, url gerada: " + url);
+        logger.debug("metodo getAllCoursesByUserId, url gerada: " + url);
         try {
             return restClient.get()
                     .uri(url)
@@ -51,6 +51,23 @@ public class CourseClient {
         } catch (RestClientException e) {
             logger.error("Error request restclient with cause: {}", e.getMessage());
             throw new RuntimeException("Error request RestClient", e);
+        }
+    }
+
+    public void deleteUserCourseInCourse(UUID userId) {
+        String url = UriComponentsBuilder
+                .fromUriString(baseUrlCourse)
+                .pathSegment("courses", "users", userId.toString())
+                .toUriString();
+        logger.debug("metodo deleteUserCourseInCourse, url gerada: " + url);
+        try {
+            restClient.delete()
+                    .uri(url)
+                    .retrieve()
+                    .toBodilessEntity();
+        } catch (RestClientException e) {
+            logger.error("Error request DELETE restclient with cause: {}", e.getMessage());
+            throw new RuntimeException("Error request DELETE RestClient", e);
         }
     }
 }
