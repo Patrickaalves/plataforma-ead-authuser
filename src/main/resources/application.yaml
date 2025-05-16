@@ -19,6 +19,8 @@ spring:
         jdbc:
           lob:
             non-contextual-creation: true
+  rabbitmq:
+    addresses: amqps://rdhphlht:rgmyla9SjLQYRTRAoK8ImLsLnAuAiGnu@beaver.rmq.cloudamqp.com/rdhphlht
   output:
     ansi:
       enabled: always
