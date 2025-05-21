@@ -2,10 +2,12 @@ package com.ead.authuser.service.impl;
 
 import com.ead.authuser.clients.CourseClient;
 import com.ead.authuser.dto.response.UserRecordDto;
+import com.ead.authuser.enums.ActionType;
 import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
 import com.ead.authuser.exceptions.NotFoundException;
 import com.ead.authuser.models.UserModel;
+import com.ead.authuser.publishers.UserEventPublisher;
 import com.ead.authuser.repository.UserRepository;
 import com.ead.authuser.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -26,10 +28,12 @@ public class UserServiceImpl implements UserService {
 
     final UserRepository userRepository;
     final CourseClient courseClient;
+    final UserEventPublisher userEventPublisher;
 
-    public UserServiceImpl(UserRepository userRepository, CourseClient courseClient) {
+    public UserServiceImpl(UserRepository userRepository, CourseClient courseClient, UserEventPublisher userEventPublisher) {
         this.userRepository = userRepository;
         this.courseClient = courseClient;
+        this.userEventPublisher = userEventPublisher;
     }
 
     @Override
@@ -52,6 +56,7 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userModel);
     }
 
+    @Transactional
     @Override
     public UserModel registerUser(UserRecordDto userRecordDto) {
         // Fazer primeiramente a conversao
@@ -63,7 +68,10 @@ public class UserServiceImpl implements UserService {
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         // Salvar na base de dados
-        return userRepository.save(userModel);
+        userRepository.save(userModel);
+        // Enviar o evento de salvar usuario via rbmq
+        userEventPublisher.publisherEvent(userModel.convertToUserEventDto(ActionType.CREATE));
+        return userModel;
     }
 
     @Override
